@@ -16,17 +16,16 @@ namespace Depreciation.Calculator
 
         private int CalculateMonthsOwned(DepreciationCalculatorInputModel inputModel)
         {
-            var endDate = AdjustFinanicalYearEnd(inputModel);
-            var startDate = inputModel.PurchaseDate;
-            var months = GetMonthsOwnedForCurrentFinancialYear(endDate, startDate);
+            var adjustFinanicalYearEnd = AdjustFinanicalYearEnd(inputModel);
+            var months = GetMonthsOwnedForCurrentFinancialYear(adjustFinanicalYearEnd, inputModel.PurchaseDate);
             return months;
         }
 
         private int GetMonthsOwnedForCurrentFinancialYear(DateTime endDate, DateTime startDate)
         {
             var totalMonths = CalculateMonths(endDate) - CalculateMonths(startDate);
-            var result = CalculateMonthsOfOwnershipForFinancialYear(totalMonths);
-            return result;
+            var monthsThisYear = CalculateMonthsOfOwnershipForFinancialYear(totalMonths);
+            return monthsThisYear;
         }
 
         private int CalculateMonthsOfOwnershipForFinancialYear(int totalMonths)
