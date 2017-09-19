@@ -5,52 +5,76 @@ namespace Depreciation.Calculator
     public class DepreciationCalculator
     {
         private static int MonthAdjustmentDays = 2;
-        private static int Months = 12;
+        private static int MonthsInYear = 12;
 
         public double GetStraightLineAmount(DepreciationCalculatorInputModel inputModel)
         {
-            var maxStraightLineAmountPerMonth = ((inputModel.AssetCost - inputModel.SalvageValue)/inputModel.UsefulLifeInYears)/12;
+            var maxStraightLineAmountPerMonth = (inputModel.AssetCost - inputModel.SalvageValue)/inputModel.UsefulLifeInYears/12;
             var monthsOwned = CalculateMonthsOwned(inputModel);
             return maxStraightLineAmountPerMonth*monthsOwned;
         }
 
         private int CalculateMonthsOwned(DepreciationCalculatorInputModel inputModel)
         {
-            var adjustFinanicalYearEnd = AdjustFinanicalYearEnd(inputModel);
-            var months = GetMonthsOwnedForCurrentFinancialYear(adjustFinanicalYearEnd, inputModel.PurchaseDate);
+            var adjustFinanicalYearEnd = AdjustFinanicalYearEnd(inputModel.FinancialYearEnd);
+            var months = GetMonthsOwnedForCurrentFinancialYear(adjustFinanicalYearEnd, inputModel.PurchaseDate, inputModel.UsefulLifeInYears);
             return months;
         }
 
-        private int GetMonthsOwnedForCurrentFinancialYear(DateTime endDate, DateTime startDate)
+        private int GetMonthsOwnedForCurrentFinancialYear(DateTime finanicalYearEnd, DateTime purchaseDate, int usefulLifeInYears)
         {
-            var totalMonths = CalculateMonths(endDate) - CalculateMonths(startDate);
-            var monthsThisYear = CalculateMonthsOfOwnershipForFinancialYear(totalMonths);
+            var maxOwnershipMonths = CalculateMaxOwnershipMonths(purchaseDate, usefulLifeInYears);
+            var totalDepreceiationMonths = CalculateTotalsMonthsElapsed(finanicalYearEnd) - CalculateTotalsMonthsElapsed(purchaseDate);
+            var monthsThisYear = CalculateMonthsOfOwnershipForFinancialYear(totalDepreceiationMonths, maxOwnershipMonths);
             return monthsThisYear;
         }
 
-        private int CalculateMonthsOfOwnershipForFinancialYear(int totalMonths)
+        private int CalculateMaxOwnershipMonths(DateTime purchaseDate, int usefulLifeInYears)
         {
-            return HasOwnedForMoreThanOneYear(totalMonths) ? GetNumberOfMonthsBeyondYear(totalMonths) : totalMonths;
+            var endUsefulLife = CalculateEndUsefulLifeDate(purchaseDate, usefulLifeInYears);
+            var maxOwnershipMonths = CalculateTotalsMonthsElapsed(endUsefulLife) - CalculateTotalsMonthsElapsed(purchaseDate);
+            return maxOwnershipMonths;
+        }
+
+        private DateTime CalculateEndUsefulLifeDate(DateTime purchaseDate, int usefulLifeInYears)
+        {
+            var endUsefulLife = purchaseDate.AddYears(usefulLifeInYears);
+            return endUsefulLife;
+        }
+
+        private int CalculateMonthsOfOwnershipForFinancialYear(int totalMonths, int maxOwnershipMonths)
+        {
+            return HasOwnedForMoreThanOneYear(totalMonths) ? GetNumberOfMonthsBeyondFirstYear(totalMonths, maxOwnershipMonths) : totalMonths;
         }
 
         private bool HasOwnedForMoreThanOneYear(int totalMonths)
         {
-            return GetNumberOfMonthsBeyondYear(totalMonths) != 0;
+            return totalMonths > MonthsInYear;
         }
 
-        private static int GetNumberOfMonthsBeyondYear(int totalMonths)
+        private int GetNumberOfMonthsBeyondFirstYear(int totalMonths, int maxOwnershipMonths)
         {
-            return totalMonths % Months;
+            var numberOfMonthsBeyondYear = totalMonths % MonthsInYear;
+            if (IsFullYearOwnership(totalMonths, maxOwnershipMonths))
+            {
+                return MonthsInYear;
+            }
+            return numberOfMonthsBeyondYear;
         }
 
-        private DateTime AdjustFinanicalYearEnd(DepreciationCalculatorInputModel inputModel)
+        private bool IsFullYearOwnership(int totalMonths, int maxOwnershipMonths)
         {
-            return inputModel.FinancialYearEnd.AddDays(MonthAdjustmentDays);
+            return totalMonths < maxOwnershipMonths;
         }
 
-        private int CalculateMonths(DateTime date)
+        private DateTime AdjustFinanicalYearEnd(DateTime financialYearEnd)
         {
-            return date.Month + date.Year * Months;
+            return financialYearEnd.AddDays(MonthAdjustmentDays);
+        }
+
+        private int CalculateTotalsMonthsElapsed(DateTime date)
+        {
+            return date.Month + date.Year * MonthsInYear;
         }
     }
 }

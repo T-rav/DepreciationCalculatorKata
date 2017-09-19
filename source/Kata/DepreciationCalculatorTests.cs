@@ -83,11 +83,11 @@ namespace Depreciation.Calculator.Tests
         }
 
         [TestFixture]
-        public class UsefulLifeTwoYearsAndAssetOwnedForHalfYearF
+        public class UsefulLifeTwoYearsAndAssetOwnedForHalfFirstYear
         {
 
             [Test]
-            public void GetStraightLineAmount_WhenFirstYearOwnershipAndSalvageValueHalfAssetCost_ShouldReturnEighthOfAssetCost()
+            public void GetStraightLineAmount_WhenFirstYearOwnership_ShouldReturnEighthOfAssetCost()
             {
                 //---------------Arrange-------------------
                 var expected = 25;
@@ -107,7 +107,28 @@ namespace Depreciation.Calculator.Tests
             }
 
             [Test]
-            public void GetStraightLineAmount_WhenThirdYearOwnershipAndSalvageValueHalfAssetCost_ShouldReturnEighthOfAssetCost()
+            //[Ignore("WIP - Need to adjust months to account for full year")]
+            public void GetStraightLineAmount_WhenSecondYearOwnership_ShouldReturnQuarterOfAssetCost()
+            {
+                //---------------Arrange-------------------
+                var expected = 50;
+                var inputModel = new DepreciationCalculatorInputModel
+                {
+                    AssetCost = 200,
+                    UsefulLifeInYears = 2,
+                    SalvageValue = 100,
+                    PurchaseDate = new DateTime(2017, 07, 01),
+                    FinancialYearEnd = new DateTime(2018, 12, 31)
+                };
+                var calculator = CreateDepreciationCalculator();
+                //---------------Act----------------------
+                var result = calculator.GetStraightLineAmount(inputModel);
+                //---------------Assert-----------------------
+                Assert.AreEqual(expected, result);
+            }
+
+            [Test]
+            public void GetStraightLineAmount_WhenThirdYearOwnership_ShouldReturnEighthOfAssetCost()
             {
                 //---------------Arrange-------------------
                 var expected = 25;
@@ -128,7 +149,7 @@ namespace Depreciation.Calculator.Tests
         }
 
         [Test]
-        [Ignore("Learning test")]
+        [Ignore("Learning test - Left here as an example")]
         public void LearningTest_WhenFindingNumberOfMonthsBetweenDates_ShouldReturnExactAmount()
         {
             //---------------Arrange-------------------
@@ -136,11 +157,17 @@ namespace Depreciation.Calculator.Tests
             var startDate = new DateTime(2017,07,01);
             var endDate = new DateTime(2017,12,31);
             //---------------Act----------------------
-            endDate = endDate.AddDays(2);
-            var result = (endDate.Month + endDate.Year * 12) - (startDate.Month + startDate.Year * 12);
+            var result = AdjustYearHandlingLeapYears(endDate, startDate);
 
             //---------------Assert-----------------------
             Assert.AreEqual(expected, result);
+        }
+
+        private int AdjustYearHandlingLeapYears(DateTime endDate, DateTime startDate)
+        {
+            endDate = endDate.AddDays(2);
+            var result = (endDate.Month + endDate.Year * 12) - (startDate.Month + startDate.Year * 12);
+            return result;
         }
 
         private static DepreciationCalculator CreateDepreciationCalculator()
