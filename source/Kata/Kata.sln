@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depreciation.Calculator.Tests", "Depreciation.Calculator.Tests.csproj", "{551EFA68-D423-4827-BAA2-1F8EB816BA9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depreciation.Calculator", "..\Depreciation.Calcuator\Depreciation.Calculator.csproj", "{6BBF32D5-6137-40A9-B0A8-A15E9FA1078D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{551EFA68-D423-4827-BAA2-1F8EB816BA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551EFA68-D423-4827-BAA2-1F8EB816BA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{551EFA68-D423-4827-BAA2-1F8EB816BA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BBF32D5-6137-40A9-B0A8-A15E9FA1078D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BBF32D5-6137-40A9-B0A8-A15E9FA1078D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BBF32D5-6137-40A9-B0A8-A15E9FA1078D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BBF32D5-6137-40A9-B0A8-A15E9FA1078D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
