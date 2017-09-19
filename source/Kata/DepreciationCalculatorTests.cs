@@ -1,5 +1,4 @@
 ﻿using System;
-using Depreciation.Calcuator;
 using NUnit.Framework;
 
 namespace Depreciation.Calculator.Tests
@@ -79,7 +78,7 @@ namespace Depreciation.Calculator.Tests
             public void GetStraightLineAmount_WhenSalvageValueHalfAssetCost_ShouldReturnEighthOfAssetCost()
             {
                 //---------------Arrange-------------------
-                var expected = 50;
+                var expected = 25;
                 var inputModel = new DepreciationCalcuatorInputModel
                 {
                     AssetCost = 200,

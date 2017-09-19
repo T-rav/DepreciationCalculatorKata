@@ -1,4 +1,4 @@
-﻿namespace Depreciation.Calcuator
+﻿namespace Depreciation.Calculator
 {
     public class DepreciationCalculator
     {
