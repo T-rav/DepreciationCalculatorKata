@@ -26,7 +26,7 @@ namespace Depreciation.Calculator
             return GetMonthsOwnedForCurrentFinancialYear(adjustFinanicalYearEnd, inputModel.PurchaseDate, inputModel.UsefulLifeInYears);
         }
 
-        private static double CalculateDepreciationAmount(double maxStraightLineAmountPerMonth, int monthsOwned)
+        private double CalculateDepreciationAmount(double maxStraightLineAmountPerMonth, int monthsOwned)
         {
             return maxStraightLineAmountPerMonth*monthsOwned;
         }
