@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
 namespace Depreciation.Calculator.Tests
@@ -29,7 +29,7 @@ namespace Depreciation.Calculator.Tests
                 Assert.AreEqual(expected, result);
             }
 
-            [TestCase(100,25,75)]
+            [TestCase(100, 25, 75)]
             [TestCase(100, 50, 50)]
             public void GetStraightLineAmount_WhenNonZeroSalvageValue_ShouldReturnAssetCostMinusSalvageValue(int assetCost, int salvageValue, double expected)
             {
