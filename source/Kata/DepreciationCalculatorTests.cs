@@ -53,7 +53,6 @@ namespace Depreciation.Calculator.Tests
         [TestFixture]
         public class UsefulLifeTwoYearsAndAssetOwnedForFullYear
         {
-
             [Test]
             public void GetStraightLineAmount_WhenSalvageValueHalfAssetCost_ShouldReturnQuarterOfAssetCost()
             {
@@ -78,7 +77,6 @@ namespace Depreciation.Calculator.Tests
         [TestFixture]
         public class UsefulLifeTwoYearsAndAssetOwnedForHalfFirstYear
         {
-
             [Test]
             public void GetStraightLineAmount_WhenFirstYearOwnership_ShouldReturnEighthOfAssetCost()
             {
@@ -100,7 +98,6 @@ namespace Depreciation.Calculator.Tests
             }
 
             [Test]
-            //[Ignore("WIP - Need to adjust months to account for full year")]
             public void GetStraightLineAmount_WhenSecondYearOwnership_ShouldReturnQuarterOfAssetCost()
             {
                 //---------------Arrange-------------------
