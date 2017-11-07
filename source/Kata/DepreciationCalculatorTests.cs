@@ -9,22 +9,11 @@ namespace Depreciation.Calculator.Tests
         [TestFixture]
         public class UsefulLifeOneYearAndAssetOwnedForFullYear
         {
-
             [Test]
             public void GetStraightLineAmount_WhenNoSalvageValue_ShouldReturnAssetCost()
             {
                 //---------------Arrange-------------------
                 var expected = 100;
-                var inputModel = CreateInputModel();
-                var calculator = CreateDepreciationCalculator();
-                //---------------Act----------------------
-                var result = calculator.GetStraightLineAmount(inputModel);
-                //---------------Assert-----------------------
-                Assert.AreEqual(expected, result);
-            }
-
-            private static DepreciationCalculatorInputModel CreateInputModel()
-            {
                 var inputModel = new DepreciationCalculatorInputModel
                 {
                     AssetCost = 100,
@@ -33,7 +22,11 @@ namespace Depreciation.Calculator.Tests
                     PurchaseDate = new DateTime(2017,01,01),
                     FinancialYearEnd = new DateTime(2017,12,31)
                 };
-                return inputModel;
+                var calculator = CreateDepreciationCalculator();
+                //---------------Act----------------------
+                var result = calculator.GetStraightLineAmount(inputModel);
+                //---------------Assert-----------------------
+                Assert.AreEqual(expected, result);
             }
 
             [TestCase(100,25,75)]
@@ -170,7 +163,7 @@ namespace Depreciation.Calculator.Tests
             return result;
         }
 
-        private static DepreciationCalculator CreateDepreciationCalculator()
+        private DepreciationCalculator CreateDepreciationCalculator()
         {
             var calculator = new DepreciationCalculator();
             return calculator;
